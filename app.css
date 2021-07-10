@@ -1,5 +1,16 @@
 .main {
-    border: 10px solid black;
+    border: 5px solid black;
+    margin-top: 50px;
+    background-color: grey;
+}
+
+.navbar-brand {
+    font-size: 24pt;
+    margin-left: 40%;
+}
+
+.selected{
+    border: 3px solid black;
 }
 
 .space{
@@ -8,4 +19,8 @@
     justify-content: space-between;
     align-items: flex-end;
     /* flex-wrap: wrap; */
+}
+
+.space:nth-child(n){
+    transition: 500ms;
 }
