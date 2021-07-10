@@ -1,0 +1,11 @@
+.main {
+    border: 10px solid black;
+}
+
+.space{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* flex-wrap: wrap; */
+}
