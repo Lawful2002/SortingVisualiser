@@ -95,7 +95,7 @@ function mergeSort(arr, l, r)
 {
     if (l < r) {
         
-        let m = l + (r - l) / 2; 
+        let m = parseInt(l + (r - l) / 2); 
         
         mergeSort(arr, l, m);
         mergeSort(arr, m + 1, r);
