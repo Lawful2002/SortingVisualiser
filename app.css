@@ -20,7 +20,3 @@
     align-items: flex-end;
     /* flex-wrap: wrap; */
 }
-
-.space:nth-child(n){
-    transition: 500ms;
-}

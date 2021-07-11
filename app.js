@@ -1,10 +1,5 @@
-function delay(n){
-    return new Promise((res, rej) => {
-        setTimeout(()=>{
-            res();
-        }, n);
-    })
-}
+// Algorithms
+
 
 async function bubbleSort(arr){
 
@@ -20,9 +15,9 @@ async function bubbleSort(arr){
             arr[j].classList.add("selected")
             arr[j+1].classList.add("selected")
 
-            await delay(10);
+            await delay(0);
 
-            console.log(`${h1} ${h2}`);
+            // console.log(`${h1} ${h2}`);
 
             if(h1 < h2){
                 let tempH = arr[j].style.height;
@@ -38,7 +33,7 @@ async function bubbleSort(arr){
                 arr[j].style.backgroundColor = arr[j+1].style.backgroundColor;
                 arr[j+1].style.backgroundColor = tempC;
 
-                console.log("swap");
+                // console.log("swap");
                 
             }            
 
@@ -51,6 +46,73 @@ async function bubbleSort(arr){
         }
     }   
 
+}
+
+function merge(arr, l, m, r)
+{
+    let i, j, k;
+    let n1 = m - l + 1;
+    let n2 = r - m; 
+    
+    let L = [], R = []; 
+    
+    for (i = 0; i < n1; i++)
+        L.push(arr[l + i]);
+    for (j = 0; j < n2; j++)
+        R.push(arr[m + 1 + j]);
+ 
+    i = 0;
+    j = 0;
+    k = l;
+
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+ 
+   
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    } 
+    
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+function mergeSort(arr, l, r)
+{
+    if (l < r) {
+        
+        let m = l + (r - l) / 2; 
+        
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+ 
+        merge(arr, l, m, r);
+    }
+}
+
+
+// Utils
+
+function delay(n){
+    return new Promise((res, rej) => {
+        setTimeout(()=>{
+            res();
+        }, n);
+    })
 }
 
 function randomNum (range, offset = 0){
@@ -86,16 +148,24 @@ function createArr(n){
 }
 
 
-// let arr = [10, 45, 89, 10, 1, -45, -2, 14, 0, 565, 32];
+// Event Listeners
+const start = document.querySelector(".start");
+start.addEventListener("click", ()=>{
+    bubbleSort(arr);
+})
 
-// function printArr(arr){
-//     let n = arr.length;
+// Test
 
-//     for(let i=0; i<n; i++){
-//         console.log(arr[i]);
-//     }
+let arr1 = [10, 45, 89, 10, 1, -45, -2, 14, 0, 565, 32];
 
-// }
+function printArr(arr){
+    let n = arr.length;
+
+    for(let i=0; i<n; i++){
+        console.log(arr[i]);
+    }
+
+}
 
 createArr(150);
 const arr = document.querySelectorAll("span");
