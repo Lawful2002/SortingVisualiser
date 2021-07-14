@@ -11,8 +11,7 @@ async function bubbleSort(arr){
         for(let j=0; j<n-1-i; j++){
 
             const h1 = parseInt(arr[j].getAttribute("heightnum"))
-            const h2 = parseInt(arr[j+1].getAttribute("heightnum"))              
-            
+            const h2 = parseInt(arr[j+1].getAttribute("heightnum"))            
 
             arr[j].classList.add("selected")
             arr[j+1].classList.add("selected")
@@ -22,11 +21,9 @@ async function bubbleSort(arr){
             arr[j].style.backgroundColor = "red";
             arr[j+1].style.backgroundColor = "red";
 
-            await delay(delayNum);
+            await delay(delayNum);           
 
-            // console.log(`${h1} ${h2}`);
-
-            if(h1 < h2){
+            if(h1 > h2){
                 let tempH = arr[j].style.height;
                 arr[j].style.height = arr[j+1].style.height;
                 arr[j+1].style.height = tempH; 
@@ -36,8 +33,8 @@ async function bubbleSort(arr){
 
                 let tempA = parseInt(arr[j].getAttribute("heightnum"));
                 arr[j].setAttribute("heightnum", `${parseInt(arr[j+1].getAttribute("heightnum"))}`);
-                arr[j+1].setAttribute("heightnum", `${tempA}`); 
-                
+                arr[j+1].setAttribute("heightnum", `${tempA}`);
+
                 await delay(delayNum);  
 
                 arr[j].style.backgroundColor = tempC2;
@@ -52,80 +49,96 @@ async function bubbleSort(arr){
 
                 arr[j+1].style.backgroundColor = tempC2;
                 arr[j].style.backgroundColor = tempC;
-            }
-
-                      
+            }                      
 
             arr[j].classList.remove("selected")
             arr[j+1].classList.remove("selected")
-
-
-            
-
-            // let tempC = arr[j].style.backgroundColor;
-            // arr[j].style.backgroundColor = arr[j+1].style.backgroundColor;
-            // arr[j+1].style.backgroundColor = tempC;
-
         }
     }   
 
 }
 
-// function merge(arr, l, m, r)
-// {
-//     let i, j, k;
-//     let n1 = m - l + 1;
-//     let n2 = r - m; 
-    
-//     let L = [], R = []; 
-    
-//     for (i = 0; i < n1; i++)
-//         L.push(arr[l + i]);
-//     for (j = 0; j < n2; j++)
-//         R.push(arr[m + 1 + j]);
- 
-//     i = 0;
-//     j = 0;
-//     k = l;
 
-//     while (i < n1 && j < n2) {
-//         if (L[i] <= R[j]) {
-//             arr[k] = L[i];
-//             i++;
-//         }
-//         else {
-//             arr[k] = R[j];
-//             j++;
-//         }
-//         k++;
-//     }
- 
-   
-//     while (i < n1) {
-//         arr[k] = L[i];
-//         i++;
-//         k++;
-//     } 
+async function partition(arr, start, end){
     
-//     while (j < n2) {
-//         arr[k] = R[j];
-//         j++;
-//         k++;
-//     }
-// }
+    const last = parseInt(arr[end].getAttribute("heightnum"))
+              
 
-// function mergeSort(arr, l, r)
-// {
-//     if (l < r) {
-        
-//         let m = parseInt(l + (r - l) / 2); 
-        
-//         mergeSort(arr, l, m);
-//         mergeSort(arr, m + 1, r);
- 
-//         merge(arr, l, m, r);
-//     }
-// }
+    arr[end].classList.add("selected")
+    
+
+    let tempC = arr[end].style.backgroundColor;
+
+    arr[end].style.backgroundColor = "black";
+    
+    let low = start-1;
+
+    // let last = arr[end];
+
+    for(let i = start; i<end; i++){        
+
+        let tempC1 = arr[i].style.backgroundColor, tempC2 = arr[low+1].style.backgroundColor;
+        arr[i].classList.add("selected")        
+        arr[i].style.backgroundColor = "red";
+
+        await delay(delayNum);
+
+        const h = parseInt(arr[i].getAttribute("heightnum"))  
+        if(h<last){
+            low++;           
+            
+            arr[i].style.backgroundColor = "blue";
+
+            await delay(delayNum);
+
+            let tempH = arr[i].style.height;
+            arr[i].style.height = arr[low].style.height;
+            arr[low].style.height = tempH; 
+
+            arr[i].classList.remove("selected");
+            arr[i].style.backgroundColor = tempC2;
+            arr[low].style.backgroundColor = tempC1;
+
+            let tempA = parseInt(arr[i].getAttribute("heightnum"));
+            arr[i].setAttribute("heightnum", `${parseInt(arr[low].getAttribute("heightnum"))}`);
+            arr[low].setAttribute("heightnum", `${tempA}`);            
+        }
+
+        else{
+            await delay(delayNum);
+            arr[i].classList.remove("selected");
+            arr[i].style.backgroundColor = tempC1;
+        }
+
+    }
+
+    await delay(delayNum);
+
+    arr[end].classList.remove("selected")
+    arr[end].style.backgroundColor = tempC;
+
+    let tempH = arr[low + 1].style.height;
+    arr[low + 1].style.height = arr[end].style.height;
+    arr[end].style.height = tempH; 
+
+    let tempA = parseInt(arr[low + 1].getAttribute("heightnum"));
+    arr[low + 1].setAttribute("heightnum", `${parseInt(arr[end].getAttribute("heightnum"))}`);
+    arr[end].setAttribute("heightnum", `${tempA}`);    
+    
+    return (low + 1);
+}
+
+async function quickSort(arr, start, end){
+
+    if(start >= end) return;
+
+    let part = await partition(arr, start, end);
+
+    quickSort(arr, start, part-1);
+    quickSort(arr, part+1, end);
+
+}
+
 
 
 // Utils
@@ -194,7 +207,7 @@ arrC.addEventListener("click", (e)=>{
 const quick = document.querySelector(".quick");
 quick.addEventListener("click", (e)=>{
     e.preventDefault();
-    // bubbleSort(arr);
+    quickSort(arr, 0, arrSize-1);
 })
 
 const heap = document.querySelector(".heap");
