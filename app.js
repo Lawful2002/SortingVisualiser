@@ -1,5 +1,5 @@
-arrSize = 80;
-delayNum = 100
+arrSize = 100;
+delayNum = 500;
 
 // Algorithms
 
@@ -186,6 +186,13 @@ function createArr(n){
 
 
 // Event Listeners
+
+const slider = document.getElementById("myRange");
+
+slider.oninput = function() {
+    delayNum = Math.abs(this.value - 1000);
+}
+
 const bubble = document.querySelector(".bubble");
 bubble.addEventListener("click", (e)=>{    
     e.preventDefault();
@@ -201,6 +208,9 @@ arrC.addEventListener("click", (e)=>{
     }
     createArr(arrSize);
     arr = document.querySelectorAll("span");
+
+    slider.value = 500;
+    delayNum = 500;
 
 })
 
