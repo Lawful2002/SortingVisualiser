@@ -85,11 +85,18 @@ async function partition(arr, start, end){
 
         const h = parseInt(arr[i].getAttribute("heightnum"))  
         if(h<last){
-            low++;           
+            low++;   
             
+            let tempC4 = arr[low].style.backgroundColor;
+            
+            arr[low].classList.add("selected");
+            arr[low].style.backgroundColor = "blue";
             arr[i].style.backgroundColor = "blue";
 
             await delay(delayNum);
+
+            arr[low].classList.remove("selected");
+            arr[low].style.backgroundColor = tempC4;
 
             let tempH = arr[i].style.height;
             arr[i].style.height = arr[low].style.height;
