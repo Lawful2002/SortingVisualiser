@@ -58,7 +58,6 @@ async function bubbleSort(arr){
 
 }
 
-
 async function partition(arr, start, end){
     
     const last = parseInt(arr[end].getAttribute("heightnum"))
@@ -146,7 +145,60 @@ async function quickSort(arr, start, end){
 
 }
 
+async function merge(arr, start, mid, end){
 
+    let L = [], R = [], LC = [], RC = [];
+
+    for(let i = start; i<=mid; i++){
+        L.push(arr[i]);
+    }
+
+    for(let i = mid+1; i<=end; i++){
+        R.push(arr[i]);
+    }    
+
+    let i = 0, j = 0, k = start;    
+
+    while(i<L.length && j<R.length){
+        if(L[i] < R[j]){
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+        else{
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+
+    while(i<L.length){
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    while(j<R.length){
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+
+}
+
+function mergeSort(arr, start, end){
+
+    if(start >= end) return;
+
+    let mid = parseInt(start + (end-start)/2);
+
+    console.log(mid);    
+
+    mergeSort(arr, start, mid);
+    mergeSort(arr, mid+1, end);
+
+    merge(arr, start, mid, end);
+
+}
 
 // Utils
 
@@ -227,7 +279,7 @@ quick.addEventListener("click", (e)=>{
     quickSort(arr, 0, arrSize-1);
 })
 
-const heap = document.querySelector(".heap");
+const heap = document.querySelector(".merge");
 heap.addEventListener("click", (e)=>{
     e.preventDefault();
     // bubbleSort(arr);
