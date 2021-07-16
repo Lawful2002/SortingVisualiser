@@ -141,8 +141,8 @@ async function quickSort(arr, start, end){
 
     let part = await partition(arr, start, end);
 
-    quickSort(arr, start, part-1);
-    quickSort(arr, part+1, end);
+    await quickSort(arr, start, part-1);
+    await quickSort(arr, part+1, end);
 
 }
 
