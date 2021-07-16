@@ -68,7 +68,7 @@ async function partition(arr, start, end){
 
     let tempC = arr[end].style.backgroundColor;
 
-    arr[end].style.backgroundColor = "black";
+    arr[end].style.backgroundColor = "purple";
     
     let low = start-1;
 
