@@ -147,45 +147,93 @@ async function quickSort(arr, start, end){
 
 async function merge(arr, start, mid, end){
 
-    let L = [], R = [], LC = [], RC = [];
+    let L = [], R = [], LC = [], RC = [], arrC = [];
 
+    // copy info
     for(let i = start; i<=mid; i++){
-        L.push(arr[i]);
+        L.push(parseInt(arr[i].getAttribute("heightnum")));
+    }
+    for(let i = start; i<=mid; i++){
+        LC.push(arr[i].style.backgroundColor);
     }
 
     for(let i = mid+1; i<=end; i++){
-        R.push(arr[i]);
-    }    
+        R.push(parseInt(arr[i].getAttribute("heightnum")));
+    }
+    for(let i = mid+1; i<=end; i++){
+        RC.push(arr[i].style.backgroundColor);
+    }   
 
+    //change color
+    for(let i = start; i<=end; i++){
+        arr[i].style.backgroundColor = "green";
+    }
+
+
+    //sort 
     let i = 0, j = 0, k = start;    
 
     while(i<L.length && j<R.length){
-        if(L[i] < R[j]){
-            arr[k] = L[i];
-            i++;
-            k++;
+
+        arr[k].classList.add("selected");
+        await delay(delayNum);
+
+        if(L[i] < R[j]){            
+            arr[k].setAttribute("heightnum", `${L[i]}`);
+            arr[k].style.height = `${L[i]}px`;
+            arrC.push(LC[i]);
+            i++;            
         }
-        else{
-            arr[k] = R[j];
-            j++;
-            k++;
+        else{            
+            arr[k].setAttribute("heightnum", `${R[j]}`);
+            arr[k].style.height = `${R[j]}px`;
+            arrC.push(RC[j]);
+            j++;            
         }
+
+        arr[k].classList.remove("selected");
+
+        k++;
     }
 
     while(i<L.length){
-        arr[k] = L[i];
+
+        arr[k].classList.add("selected");
+        await delay(delayNum);
+
+        arr[k].setAttribute("heightnum", `${L[i]}`);
+        arr[k].style.height = `${L[i]}px`;
+        arrC.push(LC[i]);
         i++;
-        k++;
+
+        arr[k].classList.remove("selected");
+
+        k++;        
     }
     while(j<R.length){
-        arr[k] = R[j];
+
+        arr[k].classList.add("selected");
+        await delay(delayNum);
+
+        arr[k].setAttribute("heightnum", `${R[j]}`);
+        arr[k].style.height = `${R[j]}px`;
+        arrC.push(RC[j]);
         j++;
-        k++;
+
+        arr[k].classList.remove("selected");
+
+        k++;        
+    }    
+
+    let c = 0;
+    for(let x = start; x<=end; x++){
+        arr[x].style.backgroundColor = arrC[c];
+        c++;
     }
 
 }
 
-function mergeSort(arr, start, end){
+async function mergeSort(arr, start, end){
 
     if(start >= end) return;
 
@@ -193,10 +241,11 @@ function mergeSort(arr, start, end){
 
     console.log(mid);    
 
-    mergeSort(arr, start, mid);
-    mergeSort(arr, mid+1, end);
+    await mergeSort(arr, start, mid);    
 
-    merge(arr, start, mid, end);
+    await mergeSort(arr, mid+1, end);
+
+    await merge(arr, start, mid, end);
 
 }
 
@@ -279,10 +328,10 @@ quick.addEventListener("click", (e)=>{
     quickSort(arr, 0, arrSize-1);
 })
 
-const heap = document.querySelector(".merge");
-heap.addEventListener("click", (e)=>{
+const mergeB = document.querySelector(".merge");
+mergeB.addEventListener("click", (e)=>{
     e.preventDefault();
-    // bubbleSort(arr);
+    mergeSort(arr, 0, arrSize-1);
 })
 
 // Test
