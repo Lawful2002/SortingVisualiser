@@ -1,4 +1,4 @@
-arrSize = 100;
+arrSize = 75;
 delayNum = 500;
 
 // Algorithms
